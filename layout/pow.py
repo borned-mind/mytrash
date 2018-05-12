@@ -5,7 +5,7 @@ import sys as sas
 def HashingSha(What):
 	return gash.sha1( What ).hexdigest()
 
-def FindPattern(Pattern, What, StartNonce=0):
+def FindPattern(Pattern, What="", StartNonce=0):
 	while HashingSha( What+str(StartNonce) ).find(Pattern) != 0:
 		StartNonce=StartNonce+1
 		pass
@@ -13,8 +13,8 @@ def FindPattern(Pattern, What, StartNonce=0):
         return StartNonce #, What
 
 def Main():
-	if len(sas.argv) != 3:
-		print ( sas.argv[0] + " %Pattern% %What%" )
+	if len(sas.argv) < 2:
+		print ( sas.argv[0] + " %Pattern% #%What%#" )
 		return None
 	for byte in sas.argv[1]:
 		b = ord(byte)
@@ -22,7 +22,12 @@ def Main():
 			print(sas.argv[1]+" is not correct pattern")
 			return None
 
-	IsNonce=FindPattern(sas.argv[1], sas.argv[2])
+
+	IsNonce=0
+	if len(sas.argv) == 2:
+	 IsNonce = FindPattern(sas.argv[1])
+	else:
+	 IsNonce = FindPattern(sas.argv[1],sas.argv[2])
 	print ("Is nonce: "+str(IsNonce) )
 
 Main()
